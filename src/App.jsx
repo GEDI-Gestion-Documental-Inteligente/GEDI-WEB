@@ -1,25 +1,24 @@
 import './App.css'
 import * as React from "react";
-import { createBrowserRouter, RouterProvider, } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginScreen from "./screens/LoginScreen";
+import Hola from './screens/Hola';
+import { SiteScreen } from './screens/SiteScreen';
+import NodeChildScreen from './screens/NodeChildScreen';
+import { useState } from 'react';
 
 function App() {
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <LoginScreen />,
-    },
-  ]);
-
+  const [currentNode, setCurrentNode] = useState({
+    guid: ''
+  })
   return (
     <>
-        <RouterProvider router={router} />
-      {/* <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name='Login' component={LoginScreen} />
-        </Stack.Navigator>
-      </NavigationContainer> */}
+      <Routes>
+        <Route path='/' element={<LoginScreen />} />
+        <Route path='/hola' element={<Hola />} />
+        <Route path='/sites' element={<SiteScreen setNodeData={setCurrentNode} />} />
+        <Route path='/nodes' element={<NodeChildScreen nodeData={currentNode} />} />
+      </Routes>
     </>
   )
 }

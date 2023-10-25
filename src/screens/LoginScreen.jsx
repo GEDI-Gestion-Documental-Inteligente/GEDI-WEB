@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { AuthLogin } from '../library/authLogin'
+import { Link, useNavigate } from 'react-router-dom';
 
 function LoginScreen() {
+  const navigate = useNavigate()
 
   const [data, setData] = useState({
-    userId: "",
-    password: ""
+    userId: "admin",
+    password: "admin"
   })
 
   const handleLoguear = async () => {
@@ -13,6 +15,7 @@ function LoginScreen() {
       AuthLogin(data)
         .then((ticket) => {
           console.log(ticket)
+          navigate('/sites')
         })
         .catch((err) => {
           console.log(err);
@@ -49,6 +52,7 @@ function LoginScreen() {
         </button>
 
         {/* {isAuthenticated && <Text>Autenticado correctamente</Text>} */}
+        {/* <Link to="/sites">sitios</Link> */}
       </div>
     </div>
   )
