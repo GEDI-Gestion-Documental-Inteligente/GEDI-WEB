@@ -1,10 +1,9 @@
 import React from 'react'
 
-function NodoView(props) {
-    const { datos,fetchData } = props
-
+function NodoView({ datos, fetchNodeChildren }) {
+    
     const Vista = datos.map((dato) => (
-        <button key={dato.entry.id} onClick={() => fetchData(dato.entry.id)}>
+        <button key={dato.entry.id} onClick={() => fetchNodeChildren(dato.entry.id)}>
             <div>
                 <p>{dato.entry.name}</p>
                 <p>{dato.entry.isFolder ? 'Folder' : 'File'}</p>
@@ -13,6 +12,9 @@ function NodoView(props) {
     ));
     return (
         <>
+            <button onClick={()=>{
+                fetchNodeChildren(datos[0].entry.parentId)
+            }} >Back</button>
             {Vista}
         </>
     )

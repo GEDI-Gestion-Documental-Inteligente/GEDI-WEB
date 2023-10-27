@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AuthLogin } from '../library/authLogin'
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 function LoginScreen() {
   const navigate = useNavigate()
