@@ -26,15 +26,15 @@ function LoginScreen() {
   }
 
   return (
-    <div style={{backgroundColor:"red"}}>
-      <div >
-        <h3 >Alfredo IA</h3>
+    <div className={style.loginContainer} >
+      <div className={style.loginContent}>
+        <h3 className={style.loginTitle} >Alfredo IA</h3>
 
         <input
           type="text"
           value={data.userId}
           onChange={(e) => setData({ ...data, userId: e.target.value })}
-          
+          className={style.input}
           placeholder="Ingrese su usuario"
           placeholdertextcolor="#000000"
         ></input>
@@ -42,14 +42,18 @@ function LoginScreen() {
           type="password"
           value={data.password}
           onChange={(e) => setData({ ...data, password: e.target.value })}
-          
+          className={style.input}
           placeholder="Ingrese su contraseña"
           placeholdertextcolor="#000000"
         />
 
-        <button  onClick={handleLoguear}>
+        <button className={[style.btn, style['btn:hover']]} onClick={handleLoguear}>
           <p >Ingresar</p>
         </button>
+{/* 
+        <button className={''} onClick={handleLoguear}>
+          <p >Ingresar</p>
+        </button> */}
 
         {/* {isAuthenticated && <Text>Autenticado correctamente</Text>} */}
         {/* <Link to="/sites">sitios</Link> */}
@@ -57,7 +61,14 @@ function LoginScreen() {
     </div>
   )
 }
-
+const style = {
+  loginContainer: ' bg-lime-700  mx-auto rounded-lg max-w-lg border-slate-200 border-2 mt-[35vh] ',
+  loginContent:' grid grid-cols-1 mx-3 ',
+  loginTitle: ' text-center text-2xl mt-5 text-white ',
+  input: ' border-2 m-2 p-2 rounded-lg ',
+  btn: ' border-slate-700 border-2 m-2 p-2 bg-blue-400 rounded-lg ',
+  'btn:hover': ' hover:bg-blue-200 '
+}
 // const styles = {
 //   body: {
 //     backgroundColor: '#4D6F5F',
