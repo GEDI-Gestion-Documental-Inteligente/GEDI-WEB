@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AuthLogin } from '../library/authLogin'
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 function LoginScreen() {
   const navigate = useNavigate()
@@ -47,10 +47,12 @@ function LoginScreen() {
           placeholdertextcolor="#000000"
         />
 
-        <button className={[style.btn, style['btn:hover']]} onClick={handleLoguear}>
+        <button
+          className={style.btn}
+          onClick={handleLoguear}>
           <p >Ingresar</p>
         </button>
-{/* 
+        {/* 
         <button className={''} onClick={handleLoguear}>
           <p >Ingresar</p>
         </button> */}
@@ -63,11 +65,10 @@ function LoginScreen() {
 }
 const style = {
   loginContainer: ' bg-lime-700  mx-auto rounded-lg max-w-lg border-slate-200 border-2 mt-[35vh] ',
-  loginContent:' grid grid-cols-1 mx-3 ',
+  loginContent: ' grid grid-cols-1 mx-3 ',
   loginTitle: ' text-center text-2xl mt-5 text-white ',
   input: ' border-2 m-2 p-2 rounded-lg ',
-  btn: ' border-slate-700 border-2 m-2 p-2 bg-blue-400 rounded-lg ',
-  'btn:hover': ' hover:bg-blue-200 '
+  btn: ' border-slate-700 border-2 m-2 p-2 bg-blue-400 rounded-lg hover:bg-blue-200 '
 }
 // const styles = {
 //   body: {
