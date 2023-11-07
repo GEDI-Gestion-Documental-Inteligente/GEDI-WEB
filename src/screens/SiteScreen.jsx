@@ -4,29 +4,40 @@ import { miSite } from "../library/sideThunks";
 import { useNavigate } from "react-router-dom";
 
 
-export const SiteScreen = ({setNodeData}) => {
-    const [sitios,setSitios] = useState([])
+export const SiteScreen = ({ setNodeData }) => {
+    const [sitios, setSitios] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
         cargarSitios()
     }, []);
-    const cargarSitios=async()=>{
-        setSitios(await miSite());
+    const cargarSitios = async () => {
+        // "Token no válido"
+        const infoSitios = await miSite()
+        console.log(infoSitios);
+        if (!infoSitios.ok &&
+            (infoSitios.msg === 'Token no válido'
+            || infoSitios.msg === 'Ticket no encontrado')) {
+                console.clear()
+                navigate('/')
+                return;
+        }
+        setSitios(infoSitios.sites.list.entries);
     }
 
-    const handleSetNode = (id)=>{
-        setNodeData({guid:id})
+    const handleSetNode = (id) => {
+        setNodeData({ guid: id })
         navigate('/nodes')
     }
     return (
-        <>
-            {sitios.map((sitio,index) =>(
+        <div className="bg-red-200 max-w-lg lg:max-w-5xl mx-auto rounded-lg p-3 mt-5 grid grid-cols-3">
+            {sitios.map((sitio, index) => (
                 <button key={index}
-                 onClick={()=>handleSetNode(sitio.entry.guid)}
+                    className="bg-red-500 p-2 rounded-lg"
+                    onClick={() => handleSetNode(sitio.entry.guid)}
                 >{sitio.entry.title}</button>
             ))}
-        </>
+        </div>
     );
 };
 

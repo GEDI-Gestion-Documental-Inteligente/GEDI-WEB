@@ -16,10 +16,12 @@ export const miSite = async () => {
 
         const response = await fetch(`http://localhost:4000/api/sites/all`, myheaders)
         .then(response => response.json());
-
-        return response.sites.list.entries;
+        return response
     } catch (error) {
         console.log(error);
-        throw error;
+        return {
+            ok:false,
+            msg: 'Ticket no encontrado'
+        };
     }
 }
