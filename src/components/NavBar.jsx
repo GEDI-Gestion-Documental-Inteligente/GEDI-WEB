@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 function Navbar() {
 
@@ -15,11 +15,14 @@ function Navbar() {
     }
 
     return (
-        <nav>
-            {rutas.map((e, index) => (
-                botonesNavegadores(index, e.ruta, e.nombre)
-            ))}
-        </nav>
+        <>
+            <nav>
+                {rutas.map((e, index) => (
+                    botonesNavegadores(index, e.ruta, e.nombre)
+                ))}
+            </nav>
+            <Outlet />
+        </>
     );
 }
 
