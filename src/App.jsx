@@ -5,6 +5,7 @@ import Hola from './screens/Hola';
 import { SiteScreen } from './screens/SiteScreen';
 import NodeChildScreen from './screens/NodeChildScreen';
 import { useState } from 'react';
+import PeopleScreen from "./screens/PeopleScreen";
 
 function App() {
   const [currentNode, setCurrentNode] = useState({
@@ -14,9 +15,9 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<LoginScreen />} />
-        <Route path='/hola' element={<Hola />} />
         <Route path='/sites' element={<SiteScreen setNodeData={setCurrentNode} />} />
         <Route path='/nodes' element={<NodeChildScreen nodeData={currentNode} />} />
+        <Route path='/people' element={<PeopleScreen />} />
       </Routes>
     </>
   )
