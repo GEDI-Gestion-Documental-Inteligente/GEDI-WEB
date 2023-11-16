@@ -7,6 +7,8 @@ import NodeChildScreen from './screens/NodeChildScreen';
 import { useState } from 'react';
 import PeopleScreen from "./screens/PeopleScreen";
 
+export const urlBase = "http://localhost:4000/api"
+
 function App() {
   const [currentNode, setCurrentNode] = useState({
     guid: ''

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { miSite } from "../library/sideThunks";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavBar";
+import { urlBase } from "../App";
 
 
 export const SiteScreen = ({ setNodeData }) => {
@@ -22,7 +23,7 @@ export const SiteScreen = ({ setNodeData }) => {
             navigate('/')
             return;
         }
-        setSitios([...infoSitios.sites.list.entries, ...infoSitios.sites.list.entries, ...infoSitios.sites.list.entries, ...infoSitios.sites.list.entries, ...infoSitios.sites.list.entries]);
+        setSitios([...infoSitios.sites.list.entries]);
     }
 
     const handleSetNode = (id) => {
