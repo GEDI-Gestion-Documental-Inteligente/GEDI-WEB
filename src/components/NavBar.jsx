@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { infoUser } from '../library/authLogin';
 function Navbar() {
 
     const navigate = useNavigate()
-
+    const [userInfo, setUserInfo] = useState('')
     const rutas = [
         { ruta: '/sites', nombre: "Sites" },
         { ruta: '/people', nombre: "People" },
     ]
 
+
+    useEffect(() => {
+        infoUser({ setUserInfo })
+    }, [])
     const botonesNavegadores = (index, ruta, nombre) => {
         return (<button className={styles.link}
             key={index} onClick={() => navigate(ruta)}>{nombre}</button>)
@@ -18,15 +23,15 @@ function Navbar() {
         <nav className='bg-cyan-900 p-3 text-slate-300 flex border-y-cyan-950 border-y-[3px]'>
             <ul className='flex me-auto'>
                 {rutas.map((linkElement, index) => (
-                    <li className='mx-2'>
+                    <li className='mx-2' key={index}>
                         {botonesNavegadores(index, linkElement.ruta, linkElement.nombre)}
                     </li>
                 ))}
 
             </ul>
             <ul className='flex mx-auto justify-content-center'>
-                <li className='mx-2'>
-                    {/* aca irá el nombre de usuario logeado */}
+                <li className='mx-2 text-lg'>
+                    {userInfo.id}
                 </li>
             </ul>
             <ul className='flex ms-auto justify-content-end'>
