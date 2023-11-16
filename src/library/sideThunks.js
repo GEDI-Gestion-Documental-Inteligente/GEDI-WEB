@@ -1,3 +1,5 @@
+import { urlBase } from '../App';
+
 export const miSite = async() => {
   try {
     const ticket = localStorage.getItem('ticket'); // Obtener el ticket desde AsyncStorage
@@ -14,10 +16,9 @@ export const miSite = async() => {
       },
     };
 
-    const response = await fetch(
-      `http://localhost:4000/api/sites/all`,
-      myheaders,
-    ).then((response) => response.json());
+    const response = await fetch(`${urlBase}/sites/all`, myheaders).then(
+      (response) => response.json(),
+    );
     return response;
   } catch (error) {
     console.log(error);
