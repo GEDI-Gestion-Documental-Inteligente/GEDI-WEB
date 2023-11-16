@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { IconFile, IconCSV, IconDOC, IconFolder, IconJPG, IconMP3, IconMP4, IconPDF, IconPNG, IconPPT, IconXLS } from '../layout/Icons';
 
 function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
     const navigate = useNavigate()
@@ -13,9 +14,7 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
                         setNav([...nav, dato.entry.parentId])
                         fetchNodeChildren(dato.entry.id)
                     }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-2/5 max-w-[35%]">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                    </svg>
+                    <IconFile isFile={dato.entry.isFile} nameIcon={dato.entry.name.toLowerCase()} />
                     <div className={styles.bodyCard}>
                         {/* <p className=''>{JSON.stringify(dato.entry)}</p> */}
                         <p className=''>({dato.entry.createdByUser.displayName})</p>
@@ -24,23 +23,28 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
                 </button>
             )
         }
-        if (nav.length) {
+        if (nav.length && dato.entry.name !== 'documentLibrary') {
             return (
                 <button
                     className={styles.card}
                     key={dato.entry.id}
                     onClick={() => {
-                        setNav([...nav, dato.entry.parentId])
-                        fetchNodeChildren(dato.entry.id)
+                        if (dato.entry.isFolder) {
+                            setNav([...nav, dato.entry.parentId])
+                            fetchNodeChildren(dato.entry.id)
+                        }
+                        if (dato.entry.isFile) {
+                            // ! EN CASO DE ARCHIVO OCURRE UN EVENTO
+                        }
                     }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-2/5 max-w-[35%]">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                    </svg>
+
+                    <IconFile isFile={dato.entry.isFile} nameIcon={dato.entry.name.toLowerCase()} />
+
                     <div className={styles.bodyCard}>
                         {/* <p className=''>{JSON.stringify(dato.entry)}</p> */}
                         <p className=''>{dato.entry.name}</p>
                         <p className=''>({dato.entry.createdByUser.displayName})</p>
-                        <p className=''>{dato.entry.isFolder ? 'Folder' : 'File'}</p>
+                        {/* <p className=''>{dato.entry.isFolder ? 'Folder' : 'File'}</p> */}
                     </div>
                 </button>
             )
@@ -79,7 +83,7 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
 
 const styles = {
     containerCards: ' mx-5 rounded-lg p-3 mt-1 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ',
-    card: 'bg-slate-200 rounded-lg flex m-2 text-cyan-900 hover:text-cyan-600 shadow-cyan-950 shadow-md ',
+    card: 'bg-slate-200 rounded-lg flex m-2 p-2 text-cyan-900 hover:text-cyan-600 shadow-cyan-950 shadow-md ',
     bodyCard: ' text-left w-full max-w-[70%] py-5 ps-3 text-xl  md:text-lg lg:text-xl ',
     btnBack: ' text-2xl inline-flex bg-cyan-800 p-3 rounded-lg mt-5 text-white ',
 }

@@ -11,7 +11,14 @@ function NodeChildScreen({ nodeData }) {
     async function fetchDataChildren(id) {
         try {
             const fetchedNodes = await getNodeChildren(id || nodeData.guid);
-            setNodes(fetchedNodes);
+            const ifDocumentLibrary = fetchedNodes.filter(node => node.entry.name === 'documentLibrary')
+            let nodesView = []
+            if (ifDocumentLibrary.length === 1) {
+                nodesView = ifDocumentLibrary
+            } else {
+                nodesView = fetchedNodes
+            }
+            setNodes(nodesView);
         } catch (error) {
             console.clear();
             navigate('/sites')
@@ -21,10 +28,10 @@ function NodeChildScreen({ nodeData }) {
         fetchDataChildren();
     }, []);
     return (
-        <>
+        <div className='bg-slate-300 h-screen overflow-auto'>
             <Navbar />
             <NodoView datos={nodes} fetchNodeChildren={fetchDataChildren} nav={nav} setNav={setNav} />
-        </>
+        </div>
     )
 }
 
