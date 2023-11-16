@@ -1,12 +1,14 @@
 import React from 'react'
-import Navbar from '../components/NavBar'
+import PeopleList from '../components/people/PeopleList'
+import PeopleAdd from '../components/people/PeopleAdd'
 
 function PeopleScreen() {
 
     return (
         <>
-            <Navbar />
             <div>PeopleScreen</div>
+            <PeopleList/>
+            <PeopleAdd/>
         </>
     )
 }
