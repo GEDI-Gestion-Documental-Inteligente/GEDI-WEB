@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { infoUser } from '../library/authLogin';
+
 function Navbar() {
 
     const navigate = useNavigate()
@@ -49,6 +50,7 @@ function Navbar() {
                 </li>
             </ul>
         </nav>
+
     );
 }
 

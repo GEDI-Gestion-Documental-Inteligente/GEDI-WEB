@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { urlBase } from '../App';
+
 const ticket = localStorage.getItem('ticket');
 
 export const getPeople = async() => {
@@ -10,7 +11,6 @@ export const getPeople = async() => {
       Authorization: ticket,
     },
   };
-
   try {
     const response = await axios.get(
       `${urlBase}/people/all-people`,
@@ -25,3 +25,26 @@ export const getPeople = async() => {
     throw Error;
   }
 };
+
+export const createPeople = async (data) => {
+    const myheaders = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: ticket,
+        },
+    };
+    try {
+        const response = await axios.post(
+            `${url_base}/people/create`,
+            data,
+            myheaders
+        );
+
+        const peopleCreated = response.data.newPerson;
+        return peopleCreated;
+    } catch (error) {
+        console.error("Error fetching people", error);
+        return null;
+    }
+}
+
