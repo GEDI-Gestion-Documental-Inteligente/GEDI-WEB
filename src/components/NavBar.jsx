@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
+
 function Navbar() {
 
     const navigate = useNavigate()
@@ -44,6 +46,7 @@ function Navbar() {
                 </li>
             </ul>
         </nav>
+
     );
 }
 

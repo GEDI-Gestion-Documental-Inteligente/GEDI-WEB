@@ -1,12 +1,12 @@
 import React from 'react'
-import Navbar from '../components/NavBar'
+import PeopleList from '../components/people/PeopleList'
 
 function PeopleScreen() {
 
     return (
         <>
-            <Navbar />
             <div>PeopleScreen</div>
+            <PeopleList/>
         </>
     )
 }
