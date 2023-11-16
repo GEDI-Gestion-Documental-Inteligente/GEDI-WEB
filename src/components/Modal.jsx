@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { createPortal } from 'react-dom'
 
 const Modal = ({ btnName, btnClass, child: Child }) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -12,7 +13,7 @@ const Modal = ({ btnName, btnClass, child: Child }) => {
                 onClick={() => {
                     setIsOpen(true)
                 }}>{btnName}</button>
-            {isOpen && (
+            {isOpen && createPortal(
                 <div className='fixed inset-0'>
                     <div className="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-30 w-screen h-screen" tabIndex={-1}
                         onClick={() => {
