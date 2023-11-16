@@ -6,29 +6,33 @@ import { miSite } from '../library/sideThunks'
 function LoginScreen() {
   const navigate = useNavigate()
 
-  const [data, setData] = useState({
-    userId: "admin",
-    password: "admin"
-  })
   useEffect(() => {
     logear()
-  })
+    console.clear();
+  }, [])
   const logear = async () => {
     // "Token no válido"
     const infoSitios = await miSite()
     if (!infoSitios.ok &&
       (infoSitios.msg === 'Token no válido'
         || infoSitios.msg === 'Ticket no encontrado')) {
-      console.clear()
+      // console.clear()
       return;
     }
     navigate('/sites')
   }
-  const handleLoguear = async () => {
+  const handleLoguear = async (e) => {
     try {
+      e.preventDefault();
+      const formData = new FormData(e.target)
+      const userId = formData.get('username')
+      const password = formData.get('password')
+      const data = {
+        userId,
+        password
+      }
       AuthLogin(data)
         .then((ticket) => {
-          console.log(ticket)
           navigate('/sites')
         })
         .catch((err) => {
@@ -41,22 +45,21 @@ function LoginScreen() {
 
   return (
     <div className="bg-cyan-900 flex h-screen overflow-auto">
-      <div className={style.loginContainer} >
+      <form className={style.loginContainer}
+        onSubmit={handleLoguear} >
         <div className={style.loginContent}>
           <h3 className={style.loginTitle} >Alfredo IA</h3>
 
           <input
             type="text"
-            value={data.userId}
-            onChange={(e) => setData({ ...data, userId: e.target.value })}
+            name='username'
             className={style.input}
             placeholder="Ingrese su usuario"
             placeholdertextcolor="#000000"
           ></input>
           <input
             type="password"
-            value={data.password}
-            onChange={(e) => setData({ ...data, password: e.target.value })}
+            name='password'
             className={style.input}
             placeholder="Ingrese su contraseña"
             placeholdertextcolor="#000000"
@@ -64,7 +67,7 @@ function LoginScreen() {
 
           <button
             className={style.btn}
-            onClick={handleLoguear}>
+            type='submit'>
             <p >Ingresar</p>
           </button>
           {/* 
@@ -75,7 +78,7 @@ function LoginScreen() {
           {/* {isAuthenticated && <Text>Autenticado correctamente</Text>} */}
           {/* <Link to="/sites">sitios</Link> */}
         </div>
-      </div>
+      </form>
     </div>
   )
 }
