@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { IconFile, IconCSV, IconDOC, IconFolder, IconJPG, IconMP3, IconMP4, IconPDF, IconPNG, IconPPT, IconXLS } from '../layout/Icons';
+import { IconFile, IconCSV, IconDOC, IconFolder, IconJPG, IconMP3, IconMP4, IconPDF, IconPNG, IconPPT, IconXLS, IconBack } from '../layout/Icons';
 
 function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
     const navigate = useNavigate()
@@ -69,9 +69,7 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
             <div className="px-5">
                 <button className={styles.btnBack}
                     onClick={handleBtnBack} >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                    </svg>
+                    <IconBack />
                 </button>
             </div>
             <div className={styles.containerCards}>
