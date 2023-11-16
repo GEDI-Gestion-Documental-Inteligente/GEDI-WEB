@@ -29,3 +29,15 @@ export const AuthLogin = async(data) => {
     throw error;
   }
 };
+
+export const infoUser = async({ setUserInfo }) => {
+  const token = localStorage.getItem('ticket');
+  const response = await fetch(`${urlBase}/people/one-person/-me-`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  const userInfo = await response.json();
+  const userData = userInfo.person.entry;
+  setUserInfo(userData);
+};
