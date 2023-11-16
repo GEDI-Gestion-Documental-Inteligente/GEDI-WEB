@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 
-const Modal = ({ btnName, btnClass, children }) => {
+const Modal = ({ btnName, btnClass, child: Child }) => {
     const [isOpen, setIsOpen] = useState(false)
+
+    const handleClose = () => {
+        setIsOpen(false)
+    }
     return (
         <>
             <button className={btnClass}
@@ -25,7 +29,29 @@ const Modal = ({ btnName, btnClass, children }) => {
                                     }}>X</button>
 
                             </div>
-                            {children}
+                            <Child handleClose={handleClose} />
+                            {/* 
+                                Child es basicamente el hijo, de este componente que le 
+                                damos como prop: el handleClose, entonces se puede
+                                posicionar un botón para cerrar el modal,
+                                un ejemplo sería:
+                                const BodyConBotonCerrar = ({handleClose}) => {
+                                    return (
+                                        <>
+                                            <div className='bodyModalEjemplo'>
+                                                <div className=''>Otros elementos</div>
+
+                                                <button onClick={handleClose} >
+                                                    Cerrar
+                                                </button>
+                                            </div>
+                                        </>
+                                    )
+                                }
+                                < Modal btnClass={'clasesEjemplo'}
+                                    btnName={'nombreBotón'}
+                                    child={BodyConBotonCerrar} />
+                            */}
                         </div>
                     </div>
                 </div>
