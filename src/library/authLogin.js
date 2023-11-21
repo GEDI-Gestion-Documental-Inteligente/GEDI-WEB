@@ -39,5 +39,8 @@ export const infoUser = async({ setUserInfo }) => {
   });
   const userInfo = await response.json();
   const userData = userInfo.person.entry;
-  setUserInfo(userData);
+  if (setUserInfo) {
+    setUserInfo(userData);
+  }
+  return userData;
 };
