@@ -4,6 +4,8 @@ import { miSite } from "../library/sideThunks";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import { urlBase } from "../App";
+import Modal from "../components/Modal";
+import sitesAdd from "../components/sites/sitesAdd";
 
 
 export const SiteScreen = ({ setNodeData }) => {
@@ -33,6 +35,9 @@ export const SiteScreen = ({ setNodeData }) => {
     return (
         <div className="bg-slate-300 h-screen overflow-auto">
             <Navbar />
+            <div className="mx-3 my-2">
+                <Modal btnClass={styles.btnAddSite} btnName={'Agregar nuevo sitio'} child={sitesAdd} />
+            </div>
             <div className="mx-5 rounded-lg p-3 mt-5 grid  sm:grid-cols-2">
                 {sitios.map((sitio, index) => (
                     <button key={index}
@@ -62,5 +67,6 @@ export const SiteScreen = ({ setNodeData }) => {
 };
 
 const styles = {
-    btnCard: 'bg-slate-200 rounded-lg flex m-2 text-cyan-900 p-2 hover:text-cyan-600 shadow-cyan-950 shadow-md'
+    btnCard: 'bg-slate-200 rounded-lg flex m-2 text-cyan-900 p-2 hover:text-cyan-600 shadow-cyan-950 shadow-md',
+    btnAddSite: 'bg-slate-200 rounded-lg m-2 text-cyan-950 p-2 hover:bg-cyan-400 hover:text-white shadow-cyan-950 shadow-md',
 };

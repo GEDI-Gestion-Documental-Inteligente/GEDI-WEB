@@ -5,6 +5,7 @@ import { IconEdit, IconOptions } from '../../layout/Icons';
 import Modal from '../Modal';
 import PeopleEdit from './PeopleEdit';
 import { infoUser } from '../../library/authLogin';
+import PeopleAdd from './PeopleAdd';
 
 function PeopleList() {
     const [people, setPeople] = useState([])
@@ -57,6 +58,10 @@ function PeopleList() {
                         )}
                     </div>
                 )
+                )}
+                {canEdit && (
+                    <Modal btnClass={'block w-full text-center bg-cyan-800 hover:bg-cyan-600 text-white text-lg rounded-lg p-2'} btnName={'Agregar Persona'} child={PeopleAdd} />
+
                 )}
             </div>
         </>
