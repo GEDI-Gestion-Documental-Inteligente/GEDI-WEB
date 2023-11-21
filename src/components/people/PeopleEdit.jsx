@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { getPeople } from '../../library/peopleThunks';
+import { getPeople, updatePeople } from '../../library/peopleThunks';
+import { useNavigate } from 'react-router-dom';
 
-function PeopleEdit({ handleClose, data }) {
+function PeopleEdit({ handleClose, data }) {7
+    const navigate = useNavigate()
     const [peopleInfo, setPeopleInfo] = useState({
         id: '',
-        password: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -31,10 +32,8 @@ function PeopleEdit({ handleClose, data }) {
         const email = formData.get('email')
         const jobTitle = formData.get('jobTitle')
         const id = formData.get('id')
-        const password = formData.get('password')
-        const data = {
+        const dataEdit = {
             id,
-            password,
             firstName,
             lastName,
             email,
@@ -45,11 +44,13 @@ function PeopleEdit({ handleClose, data }) {
             lastName.trim() !== "" &&
             email.trim() !== "" &&
             jobTitle.trim() !== "" &&
-            id.trim() !== "" &&
-            password.trim() !== ""
+            id.trim() !== ""
         ) {
-            console.log({ data });
-
+            const editedData = await updatePeople(dataEdit);
+            if(editedData.ok){
+                data.handleCargarGente()
+                handleClose()
+            }
             // onSubmit(); // Llama a la función onSubmit para cerrar el formulario o hacer otras acciones necesarias
         } else {
             alert("Por favor, complete todos los campos.");
