@@ -53,7 +53,7 @@ function PeopleList() {
                             {person.entry.id}
                         </p>
                         {canEdit && (
-                            <Modal btnClass={'flex ms-auto border-cyan-700 border-2 p-1 rounded-lg hover:bg-cyan-500 h-10 '} btnName={<IconEdit />} child={PeopleEdit} data={{ id: person.entry.id }} />
+                            <Modal btnClass={'flex ms-auto border-cyan-700 border-2 p-1 rounded-lg hover:bg-cyan-500 h-10 '} btnName={<IconEdit />} child={PeopleEdit} data={{ id: person.entry.id, handleCargarGente }} />
                         )}
                     </div>
                 )

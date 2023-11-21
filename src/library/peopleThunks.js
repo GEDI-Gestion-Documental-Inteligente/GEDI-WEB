@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { urlBase } from '../App';
 
-export const getAllPeople = async() => {
+export const getAllPeople = async () => {
   const ticket = localStorage.getItem('ticket');
   const myheaders = {
     method: 'GET',
@@ -21,7 +21,7 @@ export const getAllPeople = async() => {
   }
 };
 
-export const createPeople = async(data) => {
+export const createPeople = async (data) => {
   const ticket = localStorage.getItem('ticket');
 
   const myheaders = {
@@ -45,7 +45,7 @@ export const createPeople = async(data) => {
   }
 };
 
-export const getPeople = async({ id }) => {
+export const getPeople = async ({ id }) => {
   const token = localStorage.getItem('ticket');
   const response = await fetch(`${urlBase}/people/one-person/${id || '-me-'}`, {
     headers: {
@@ -64,3 +64,27 @@ export const getPeople = async({ id }) => {
   const userData = userInfo.person.entry;
   return userData;
 };
+
+export const updatePeople = async (data) => {
+  const ticket = localStorage.getItem('ticket');
+
+  const myheaders = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: ticket,
+    },
+  };
+  try {
+    const response = await axios.put(
+      `${urlBase}/people/update/${data.id}`,
+      JSON.stringify(data),
+      myheaders,
+    );
+
+    const peopleEdited = await response.data;
+    return peopleEdited;
+  } catch (error) {
+    console.error('Error fetching people', error);
+    return null;
+  }
+}
