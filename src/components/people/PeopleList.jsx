@@ -1,13 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { getPeople } from '../../library/peopleThunks'
+import { getAllPeople } from '../../library/peopleThunks'
+import { useNavigate } from 'react-router-dom';
+import { IconEdit, IconOptions } from '../../layout/Icons';
+import Modal from '../Modal';
+import PeopleEdit from './PeopleEdit';
+import { infoUser } from '../../library/authLogin';
 
 function PeopleList() {
     const [people, setPeople] = useState([])
-
+    const [canEdit, setCanEdit] = useState(false)
+    const [userInfo, setUserInfo] = useState('')
+    const navigate = useNavigate()
     const handleCargarGente = async () => {
-        const response = await getPeople()
-        setPeople(response)
-        console.log(response);
+        try {
+
+            const userInfo = await infoUser({ setUserInfo })
+            const response = await getAllPeople()
+            setPeople(response)
+            if (userInfo.id === 'admin') {
+                // admin es en este caso pero luego debería
+                // consultar un array y si su id está dentro del mismo
+                // permitir editar personas
+                setCanEdit(true)
+            }
+        } catch (error) {
+            console.log(error);
+
+            navigate('/')
+        }
     }
 
     useEffect(() => {
@@ -16,12 +36,29 @@ function PeopleList() {
 
     return (
         <>
-            <div>PeopleList</div>
+            <h2 className='text-2xl text-center'>Lista de personas</h2>
 
-            {people.map(person => (
-                <p key={person.entry.id}>{person.entry.firstName}</p>
-            )
-            )}
+            <div>
+                {people.map(person => (
+                    <div
+                        className='text-lg my-2 border-2 border-cyan-700 p-2 rounded-lg flex'
+                        key={person.entry.id}>
+                        <p className='inline-block mx-1'>
+                            {person.entry.firstName}
+                        </p>
+                        <p className='inline-block mx-1'>
+                            {person.entry.LastName}
+                        </p>
+                        <p className='inline-block mx-1'>
+                            {person.entry.id}
+                        </p>
+                        {canEdit && (
+                            <Modal btnClass={'flex ms-auto border-cyan-700 border-2 p-1 rounded-lg hover:bg-cyan-500 h-10 '} btnName={<IconEdit />} child={PeopleEdit} data={{ id: person.entry.id }} />
+                        )}
+                    </div>
+                )
+                )}
+            </div>
         </>
     )
 }
