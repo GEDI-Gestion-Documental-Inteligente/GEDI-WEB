@@ -68,5 +68,5 @@ export const SiteScreen = ({ setNodeData }) => {
 
 const styles = {
     btnCard: 'bg-slate-200 rounded-lg flex m-2 text-cyan-900 p-2 hover:text-cyan-600 shadow-cyan-950 shadow-md',
-    btnAddSite: 'bg-slate-200 rounded-lg m-2 text-cyan-950 p-2 hover:bg-cyan-400 hover:text-white shadow-cyan-950 shadow-md',
+    btnAddSite: 'bg-slate-200 rounded-lg ms-7 mt-2 text-cyan-950 p-2 hover:bg-cyan-400 hover:text-white shadow-cyan-950 shadow-md',
 };
