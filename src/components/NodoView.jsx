@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { IconFile, IconCSV, IconDOC, IconFolder, IconJPG, IconMP3, IconMP4, IconPDF, IconPNG, IconPPT, IconXLS, IconBack } from '../layout/Icons';
+import { IconFile, IconBack, IconAdd } from '../layout/Icons';
+import Modal from './Modal';
+import NodeAdd from './nodes/NodoAdd'
 
 function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
     const navigate = useNavigate()
@@ -63,7 +65,10 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
             return;
         }
         fetchNodeChildren(nav[nav.length - 1]);
-    }
+    };
+    const handleBtnAdd = () => {
+            <Modal btnName={'Agregar'} child={NodeAdd} />
+    };
     return (
         <div className='mt-16'>
             <div className="px-5">
@@ -71,6 +76,7 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
                     onClick={handleBtnBack} >
                     <IconBack />
                 </button>
+                <Modal btnName={'Agregar'} child={NodeAdd} />
             </div>
             <div className={styles.containerCards}>
                 {Vista}
