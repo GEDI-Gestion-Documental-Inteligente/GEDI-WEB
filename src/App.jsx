@@ -6,6 +6,7 @@ import { SiteScreen } from './screens/SiteScreen';
 import NodeChildScreen from './screens/NodeChildScreen';
 import { useState } from 'react';
 import PeopleScreen from "./screens/PeopleScreen";
+import { ChatScreen } from "./screens/ChatScreen";
 
 export const urlBase = "http://localhost:4000/api"
 
@@ -20,6 +21,7 @@ function App() {
         <Route path='/sites' element={<SiteScreen setNodeData={setCurrentNode} />} />
         <Route path='/nodes' element={<NodeChildScreen nodeData={currentNode} />} />
         <Route path='/people' element={<PeopleScreen />} />
+        <Route path='/chat' element={<ChatScreen />} />
       </Routes>
     </>
   )

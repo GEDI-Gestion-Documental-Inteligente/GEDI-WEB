@@ -33,7 +33,7 @@ export const SiteScreen = ({ setNodeData }) => {
         navigate('/nodes')
     }
     return (
-        <div className="bg-slate-300 h-screen overflow-auto">
+        <div className="bg-slate-300 h-screen overflow-auto mt-14">
             <Navbar />
             <div className="mx-3 my-2">
                 <Modal btnClass={styles.btnAddSite} btnName={'Agregar nuevo sitio'} child={sitesAdd} />

@@ -65,7 +65,7 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
         fetchNodeChildren(nav[nav.length - 1]);
     }
     return (
-        <>
+        <div className='mt-16'>
             <div className="px-5">
                 <button className={styles.btnBack}
                     onClick={handleBtnBack} >
@@ -75,7 +75,7 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
             <div className={styles.containerCards}>
                 {Vista}
             </div>
-        </>
+        </div>
     )
 }
 
