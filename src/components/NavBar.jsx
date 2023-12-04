@@ -11,9 +11,16 @@ function Navbar() {
         { ruta: '/people', nombre: "People" },
     ]
 
+    const [rutasDisponibles, setRutasDisponibles] = useState(rutas)
 
     useEffect(() => {
-        infoUser({ setUserInfo })
+        infoUser({ setUserInfo }).then((user) => {
+            if (user.id === 'admin') {
+                setRutasDisponibles([...rutasDisponibles, { ruta: '/chat', nombre: 'ChatIA' }])
+                console.log({ rutasDisponibles });
+
+            }
+        })
     }, [])
     const botonesNavegadores = (index, ruta, nombre) => {
         return (<button className={styles.link}
@@ -21,9 +28,9 @@ function Navbar() {
     }
 
     return (
-        <nav className='bg-cyan-900 p-3 text-slate-300 flex border-y-cyan-950 border-y-[3px]'>
+        <nav className='bg-cyan-900 p-3 text-slate-300 flex border-y-cyan-950 border-y-[3px] fixed top-0 w-full'>
             <ul className='flex me-auto'>
-                {rutas.map((linkElement, index) => (
+                {rutasDisponibles.map((linkElement, index) => (
                     <li className='mx-2' key={index}>
                         {botonesNavegadores(index, linkElement.ruta, linkElement.nombre)}
                     </li>
