@@ -7,6 +7,7 @@ import NodeChildScreen from './screens/NodeChildScreen';
 import { useState } from 'react';
 import PeopleScreen from "./screens/PeopleScreen";
 import { ChatScreen } from "./screens/ChatScreen";
+import { IdProvider } from "./context/IdParentContext";
 
 export const urlBase = "http://localhost:4000/api"
 
@@ -16,13 +17,15 @@ function App() {
   })
   return (
     <>
-      <Routes>
-        <Route path='/' element={<LoginScreen />} />
-        <Route path='/sites' element={<SiteScreen setNodeData={setCurrentNode} />} />
-        <Route path='/nodes' element={<NodeChildScreen nodeData={currentNode} />} />
-        <Route path='/people' element={<PeopleScreen />} />
-        <Route path='/chat' element={<ChatScreen />} />
-      </Routes>
+      <IdProvider>
+        <Routes>
+          <Route path='/' element={<LoginScreen />} />
+          <Route path='/sites' element={<SiteScreen setNodeData={setCurrentNode} />} />
+          <Route path='/nodes' element={<NodeChildScreen nodeData={currentNode} />} />
+          <Route path='/people' element={<PeopleScreen />} />
+          <Route path='/chat' element={<ChatScreen />} />
+        </Routes>
+      </IdProvider>
     </>
   )
 }

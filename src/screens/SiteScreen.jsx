@@ -6,11 +6,13 @@ import Navbar from "../components/NavBar";
 import { urlBase } from "../App";
 import Modal from "../components/Modal";
 import sitesAdd from "../components/sites/sitesAdd";
+import { useContextIdParent } from "../hooks/useIdParent";
 
 
 export const SiteScreen = ({ setNodeData }) => {
     const [sitios, setSitios] = useState([])
     const navigate = useNavigate()
+    const { setter } = useContextIdParent();
 
     useEffect(() => {
         cargarSitios()
@@ -30,6 +32,7 @@ export const SiteScreen = ({ setNodeData }) => {
 
     const handleSetNode = (id) => {
         setNodeData({ guid: id })
+        setter(id)
         navigate('/nodes')
     }
     return (
