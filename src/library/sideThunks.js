@@ -1,6 +1,7 @@
 import { urlBase } from '../App';
+// TODO: PASAR TODO A POO, por una sola clase que trabaje
 
-export const miSite = async () => {
+export const miSite = async() => {
   try {
     const ticket = localStorage.getItem('ticket'); // Obtener el ticket desde AsyncStorage
 
@@ -29,7 +30,7 @@ export const miSite = async () => {
   }
 };
 
-export const createSite = async (data) => {
+export const createSite = async(data) => {
   try {
     const ticket = localStorage.getItem('ticket'); // Obtener el ticket desde AsyncStorage
 
@@ -46,10 +47,9 @@ export const createSite = async (data) => {
       },
     };
 
-    const response = await fetch(`${urlBase}/sites/create`, myheaders)
-      .then(
-        (response) => response.json(),
-      );
+    const response = await fetch(`${urlBase}/sites/create`, myheaders).then(
+      (response) => response.json(),
+    );
     return response;
   } catch (error) {
     console.log(error);
@@ -58,4 +58,4 @@ export const createSite = async (data) => {
       msg: 'Ticket no encontrado',
     };
   }
-}
+};

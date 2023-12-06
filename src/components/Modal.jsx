@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { createPortal } from 'react-dom'
 
-const Modal = ({ btnName, btnClass, child: Child, data }) => {
+const Modal = ({ btnName, btnClass, child: Child, data, modalWidth }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const handleClose = () => {
@@ -29,7 +29,7 @@ const Modal = ({ btnName, btnClass, child: Child, data }) => {
                     >
 
                     </div>
-                    <div className="mx-auto mt-20 w-[75vw] backdrop-blur-0 overflow-auto flex justify-center items-center">
+                    <div className={`mx-auto mt-20 ${modalWidth ?? 'w-[75vw] lg:w-[50vw]'} backdrop-blur-0 overflow-auto flex justify-center items-center`}>
                         <div className="bg-white container p-2 rounded-lg flex flex-col justify-center items-center gap-1">
                             <div className="fixed top-2 right-2">
                                 <button className='bg-cyan-700 text-white rounded-lg py-2 px-3 hover:bg-cyan-400'

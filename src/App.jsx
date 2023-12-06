@@ -10,23 +10,22 @@ import { ChatScreen } from "./screens/ChatScreen";
 import { IdProvider } from "./context/IdParentContext";
 
 export const urlBase = "http://localhost:4000/api"
+export const urlApiIA = "http://localhost:4005/chat"
 
 function App() {
   const [currentNode, setCurrentNode] = useState({
     guid: ''
   })
   return (
-    <>
-      <IdProvider>
-        <Routes>
-          <Route path='/' element={<LoginScreen />} />
-          <Route path='/sites' element={<SiteScreen setNodeData={setCurrentNode} />} />
-          <Route path='/nodes' element={<NodeChildScreen nodeData={currentNode} />} />
-          <Route path='/people' element={<PeopleScreen />} />
-          <Route path='/chat' element={<ChatScreen />} />
-        </Routes>
-      </IdProvider>
-    </>
+    <IdProvider>
+      <Routes>
+        <Route path='/' element={<LoginScreen />} />
+        <Route path='/sites' element={<SiteScreen setNodeData={setCurrentNode} />} />
+        <Route path='/nodes' element={<NodeChildScreen nodeData={currentNode} />} />
+        <Route path='/people' element={<PeopleScreen />} />
+        <Route path='/chat' element={<ChatScreen />} />
+      </Routes>
+    </IdProvider>
   )
 }
 

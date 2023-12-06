@@ -25,7 +25,7 @@ export default function sitesAdd({ handleClose }) {
     };
 
     return (
-        <div className="p-2 w-full">
+        <div className="p-2 w-3/4">
             <form onSubmit={handleSubmit}>
                 <h2 className="text-center text-lg mb-5">
                     Crear una nuevo sitio
@@ -76,7 +76,7 @@ export default function sitesAdd({ handleClose }) {
                         ],
                     }}
                 />
-                <div className="mx-auto w-3/4 gap-2 grid grid-cols-2">
+                <div className="mx-auto w-3/4 gap-2 grid grid-cols-2 mt-4">
                     <button
                         className="bg-lime-500 border-2 border-cyan-600 text-white p-3 rounded-lg hover:bg-lime-700 flex-inline"
                         type="submit"

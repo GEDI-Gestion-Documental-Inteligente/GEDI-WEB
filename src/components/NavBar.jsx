@@ -15,10 +15,10 @@ function Navbar() {
 
     useEffect(() => {
         infoUser({ setUserInfo }).then((user) => {
-            if (user.id === 'admin') {
+            const rutaChatIA = rutasDisponibles.filter(e => e.nombre === 'ChatIA').length
+            if (user?.id === 'admin' && !rutaChatIA) {
                 setRutasDisponibles([...rutasDisponibles, { ruta: '/chat', nombre: 'ChatIA' }])
                 console.log({ rutasDisponibles });
-
             }
         })
     }, [])
