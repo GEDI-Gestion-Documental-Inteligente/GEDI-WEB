@@ -1,11 +1,12 @@
 import React from 'react'
 import { createNode } from '../../library/nodeThunk';
 import { useContextIdParent } from '../../hooks/useIdParent';
+import { useNavigate } from 'react-router-dom';
 
-function NodoAdd({ handleClose}) {
+function NodoAdd({ handleClose }) {
 
-  const { idParent }= useContextIdParent()
-
+  const { idParent } = useContextIdParent()
+  const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.target);
@@ -22,7 +23,10 @@ function NodoAdd({ handleClose}) {
       title.trim() !== "" &&
       description.trim() !== ""
     ) {
-      await createNode(idParent,data);
+      await createNode(idParent, data).then(() => {
+        navigate('/nodes')
+        handleClose()
+      });
       // onSubmit(); // Llama a la función onSubmit para cerrar el formulario o hacer otras acciones necesarias
     } else {
       alert("Por favor, complete todos los campos.");

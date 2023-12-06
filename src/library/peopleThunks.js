@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { urlBase } from '../App';
+// TODO: PASAR TODO A POO, por una sola clase que trabaje
 
-export const getAllPeople = async () => {
+export const getAllPeople = async() => {
   const ticket = localStorage.getItem('ticket');
   const myheaders = {
     method: 'GET',
@@ -21,7 +22,7 @@ export const getAllPeople = async () => {
   }
 };
 
-export const createPeople = async (data) => {
+export const createPeople = async(data) => {
   const ticket = localStorage.getItem('ticket');
 
   const myheaders = {
@@ -45,7 +46,7 @@ export const createPeople = async (data) => {
   }
 };
 
-export const getPeople = async ({ id }) => {
+export const getPeople = async({ id }) => {
   const token = localStorage.getItem('ticket');
   const response = await fetch(`${urlBase}/people/one-person/${id || '-me-'}`, {
     headers: {
@@ -65,7 +66,7 @@ export const getPeople = async ({ id }) => {
   return userData;
 };
 
-export const updatePeople = async (data) => {
+export const updatePeople = async(data) => {
   const ticket = localStorage.getItem('ticket');
 
   const myheaders = {
@@ -87,4 +88,4 @@ export const updatePeople = async (data) => {
     console.error('Error fetching people', error);
     return null;
   }
-}
+};

@@ -36,7 +36,7 @@ function PeopleAdd({ handleClose }) {
   };
 
   return (
-    <div className="p-2 w-full"
+    <div className="p-2 w-3/4"
     >
       <form
 

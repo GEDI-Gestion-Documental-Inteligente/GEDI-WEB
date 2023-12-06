@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { getPeople, updatePeople } from '../../library/peopleThunks';
 import { useNavigate } from 'react-router-dom';
 
-function PeopleEdit({ handleClose, data }) {7
+function PeopleEdit({ handleClose, data }) {
+    7
     const navigate = useNavigate()
     const [peopleInfo, setPeopleInfo] = useState({
         id: '',
@@ -47,7 +48,7 @@ function PeopleEdit({ handleClose, data }) {7
             id.trim() !== ""
         ) {
             const editedData = await updatePeople(dataEdit);
-            if(editedData.ok){
+            if (editedData.ok) {
                 data.handleCargarGente()
                 handleClose()
             }
@@ -58,7 +59,7 @@ function PeopleEdit({ handleClose, data }) {7
     };
 
     return (
-        <div className="p-2 w-full"
+        <div className="p-2 w-3/4"
         >
             <form
 

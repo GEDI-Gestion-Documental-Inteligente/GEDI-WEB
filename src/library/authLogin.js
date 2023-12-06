@@ -1,6 +1,7 @@
 import { urlBase } from '../App';
-
+// TODO: PASAR TODO A POO, por una sola clase que trabaje
 export const AuthLogin = async(data) => {
+  // TODO: Manejar bien la respuesta, para que realmente sea veridico el user
   const { userId, password } = data;
   try {
     const response = await fetch(`${urlBase}/auth`, {
@@ -38,7 +39,7 @@ export const infoUser = async({ setUserInfo }) => {
     },
   });
   const userInfo = await response.json();
-  const userData = userInfo.person.entry;
+  const userData = userInfo?.person?.entry;
   if (setUserInfo) {
     setUserInfo(userData);
   }
