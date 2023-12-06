@@ -5,27 +5,27 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/NavBar';
 
 function NodeChildScreen({ nodeData }) {
-    const [nodes, setNodes] = useState([]);
+    const [nodes, setNodes] = useState({ alfrescoNodes: [], mongoNodes: [] });
     const [nav, setNav] = useState([]);
     const navigate = useNavigate()
     async function fetchDataChildren(id) {
         try {
-            const fetchedNodes = await getNodeChildren(id || nodeData.guid);
-            const ifDocumentLibrary = fetchedNodes.filter(node => node.entry.name === 'documentLibrary')
+            const { alfrescoNodes, mongoNodes } = await getNodeChildren(id || nodeData.guid);
+            const ifDocumentLibrary = alfrescoNodes.filter(node => node.name === 'documentLibrary')
             let nodesView = []
             if (ifDocumentLibrary.length === 1) {
                 nodesView = ifDocumentLibrary
             } else {
-                nodesView = fetchedNodes
+                nodesView = alfrescoNodes
             }
-            setNodes(nodesView);
+            setNodes({ alfrescoNodes: nodesView, mongoNodes });
         } catch (error) {
             console.clear();
             navigate('/sites')
         }
     }
     useEffect(() => {
-        fetchDataChildren();
+        fetchDataChildren()
     }, []);
     return (
         <div className='bg-slate-300 h-screen overflow-auto'>
