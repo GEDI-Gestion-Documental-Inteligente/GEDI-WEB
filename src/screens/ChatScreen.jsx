@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../components/NavBar";
 import { IconAdjuntFile, IconCamera } from "../layout/Icons";
-
+import Markdown from 'react-markdown'
 /* TODO: componetizar mejor este chat, es necesario
     para que al futuro pueda haber multiples chats de un solo usuario
  */
-
+import remarkGfm from 'remark-gfm'
+import { configMessageIA } from "../layout/configMarkdownChat";
 export const ChatScreen = () => {
     const [historyChat, setHistoryChat] = useState([]);
     const [mensajeActual, setMensajeActual] = useState({ from: "", message: "" });
     const [mensajeIA, setMensajeIA] = useState({ from: "IA", message: "Hola soy Alfredo IA, estoy aqui para ayudar!" });
-
+    const markdown = "# Documento Aleatorio en Markdown \n## Introducción\nEste es un documento de ejemplo en formato Markdown, que incluirá una variedad de elementos como listas, tablas, títulos de diferentes tamaños y enlaces.\n\n## Listas\n### Lista Numerada\n1. Elemento 1\n2. Elemento 2\n3. Elemento 3\n\n### Lista con viñetas\n- Viñeta A\n- Viñeta B\n- Viñeta C\n\n## Tabla de Ejemplo\n| Encabezado 1 | Encabezado 2 | Encabezado 3 |\n|--------------|--------------|--------------|\n| Dato 1,1     | Dato 1,2     | Dato 1,3     |\n| Dato 2,1     | Dato 2,2     | Dato 2,3     |\n| Dato 3,1     | Dato 3,2     | Dato 3,3     |\n\n## Títulos de Distintos Tamaños\n### Título de Tercer Nivel\n#### Título de Cuarto Nivel\n##### Título de Quinto Nivel\n\n## Enlaces de Ejemplo\n- [Sitio de Ejemplo 1](http://www.ejemplo1.com)\n- [Sitio de Ejemplo 2](http://www.ejemplo2.com)\n"
     // agrega un elemento a un React.Dispatch
     const nuevoMensaje = (mensaje, history, setter) => {
         setter([...history, mensaje]);
@@ -48,7 +49,9 @@ export const ChatScreen = () => {
                 className="bg-cyan-800 my-5 me-auto w-[80%] p-2 rounded-lg text-white text-lg"
                 key={index}
             >
-                {message}
+                <Markdown remarkPlugins={[remarkGfm]} components={configMessageIA}>
+                    {message}
+                </Markdown>
             </div>
         );
     };
@@ -69,7 +72,7 @@ export const ChatScreen = () => {
         const fetchito = new Promise((resolve, reject) => {
             //! COMENTAR ESTA PROMESA
             setTimeout(ga => {
-                resolve({ result: 'Hola como estass!!!' })
+                resolve({ result: markdown })
             }, 5001)
         })
         //? const message = await fetchito.json(); descomentar esto
