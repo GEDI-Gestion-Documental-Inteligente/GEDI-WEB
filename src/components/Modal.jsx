@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { createPortal } from 'react-dom'
 
-const Modal = ({ btnName, btnClass, child: Child, data, modalWidth }) => {
+const Modal = ({ btnName, btnClass, child: Child, data, modalWidth, modalFloat }) => {
     const [isOpen, setIsOpen] = useState(false)
-
+    const [cordsModal, setCordsModal] = useState({ x: 0, y: 0 })
     const handleClose = () => {
         setIsOpen(false)
     }
     return (
         <>
             <button className={btnClass}
-                onClick={() => {
+                onClick={(e) => {
+                    const { clientX, clientY } = e;
+                    setCordsModal({ x: clientX, y: clientY });
                     setIsOpen(true)
                 }}>{btnName}</button>
-            {isOpen && (
+            {isOpen && createPortal(
                 <div className='fixed inset-0 overflow-y-auto'
                     onKeyUp={(key) => {
                         if (key.code === "Escape") {
@@ -21,7 +23,7 @@ const Modal = ({ btnName, btnClass, child: Child, data, modalWidth }) => {
                         }
 
                     }}>
-                    <div className="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-30 w-screen h-screen" tabIndex={-1}
+                    <div className={`fixed inset-0 bg-black backdrop-blur-sm bg-opacity-30 w-screen h-screen`} tabIndex={-1}
                         onClick={() => {
                             setIsOpen(false)
                         }}
@@ -29,9 +31,10 @@ const Modal = ({ btnName, btnClass, child: Child, data, modalWidth }) => {
                     >
 
                     </div>
-                    <div className={`mx-auto mt-20 ${modalWidth ?? 'w-[75vw] lg:w-[50vw]'} backdrop-blur-0 overflow-auto flex justify-center items-center`}>
+                    <div className={`mx-auto ${modalFloat ? 'h-full my-auto' : 'mt-20'} ${modalWidth ?? 'w-[75vw] lg:w-[50vw]'} backdrop-blur-0 overflow-auto flex justify-center items-center`}
+                    >
                         <div className="bg-white container p-2 rounded-lg flex flex-col justify-center items-center gap-1">
-                            <div className="fixed top-2 right-2">
+                            <div className="relative ms-auto">
                                 <button className='bg-cyan-700 text-white rounded-lg py-2 px-3 hover:bg-cyan-400'
                                     onClick={() => {
                                         setIsOpen(false)
@@ -67,7 +70,7 @@ const Modal = ({ btnName, btnClass, child: Child, data, modalWidth }) => {
                         </div>
                     </div>
                 </div>
-            )}
+                , document.body)}
         </>
     )
 }

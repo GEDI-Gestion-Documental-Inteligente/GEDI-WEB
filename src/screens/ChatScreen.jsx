@@ -7,7 +7,11 @@ import Markdown from 'react-markdown'
  */
 import remarkGfm from 'remark-gfm'
 import { configMessageIA } from "../layout/configMarkdownChat";
+import { urlApiIA } from "../App";
+import Modal from "../components/Modal";
+import { AdjuntFile } from "../components/chat/AdjuntFile";
 export const ChatScreen = () => {
+    const [isLoadingResponse, setIsLoadingResponse] = useState(false)
     const [historyChat, setHistoryChat] = useState([]);
     const [mensajeActual, setMensajeActual] = useState({ from: "", message: "" });
     const [mensajeIA, setMensajeIA] = useState({ from: "IA", message: "Hola soy Alfredo IA, estoy aqui para ayudar!" });
@@ -16,6 +20,10 @@ export const ChatScreen = () => {
     const nuevoMensaje = (mensaje, history, setter) => {
         setter([...history, mensaje]);
     };
+
+
+
+    const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
 
     // uso una referenica React para usarlo en el div
     // que contiene los mensajes
@@ -28,9 +36,10 @@ export const ChatScreen = () => {
 
     useEffect(() => {
         // por cada cambio en mensajeIA agrega un nuevo mensaje al HistoryChat
-        if (mensajeIA.message.trim() !== "") {
+        if (mensajeIA?.message?.trim() !== "") {
             nuevoMensaje(mensajeIA, historyChat, setHistoryChat)
         }
+
     }, [mensajeIA])
 
     const mensajeFormat = ({ from, message }, index) => {
@@ -57,33 +66,33 @@ export const ChatScreen = () => {
     };
     // TODO: esta funcion debe estar en otro archivo fuera
     const preguntar = async ({ query }) => {
-        /*
-          const fetchito = await fetch(
-          !  `${urlApiChat} ACA VA LA URL API CHAT`,
-            {
-               method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ query }),
-            }
-        );
-         */
-        const fetchito = new Promise((resolve, reject) => {
-            //! COMENTAR ESTA PROMESA
-            setTimeout(ga => {
-                resolve({ result: markdown })
-            }, 5001)
-        })
-        //? const message = await fetchito.json(); descomentar esto
-        const message = await fetchito //! comentar esto
-        setMensajeIA({ from: "IA", message: await message.result })
-        setTimeout(async () => {
-            if (await message) {
-                setMensajeIA({ from: "IA", message: "" })
-            }
+        // const response = await fetch(urlApiIA, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ query }),
+        // });
 
-        }, 1500)
+        // const message = await response.json();
+        // if (message?.detail?.includes('Please try again in 20s')) {
+        //     setMensajeIA({ from: "IA", message: "No puedo contestar a esa pregunta, sé mas específico" });
+        //     return;
+        // }
+        const message = new Promise((resolve, reject) => {
+            setIsLoadingResponse(true)
+            setTimeout(() => {
+                resolve('Para crear una tabla con el nombre del alumno, la fecha de registro y si asistió o no, puedes seguir estos pasos:\n\n1. Crea una tabla con tres columnas: "Nombre del Alumno", "Fecha de Registro" y "Asistencia".\n2. Agrega una fila por cada alumno y completa la información correspondiente en cada columna.\n3. En la columna "Asistencia", puedes utilizar una marca o un símbolo para indicar si el alumno asistió o no. Por ejemplo, puedes utilizar un check (√) para indicar que el alumno asistió y dejar la celda vacía o utilizar una cruz (X) para indicar que el alumno no asistió.\n4. Puedes utilizar herramientas como Microsoft Excel, Google Sheets o cualquier otra hoja de cálculo para crear y gestionar la tabla.\n\nAquí tienes un ejemplo de cómo se vería la tabla:\n\n| Nombre del Alumno | Fecha de Registro | Asistencia |\n|-------------------|------------------|------------|\n| Juan Pérez        | 01/01/2022       | √          |\n| María Gómez       | 02/01/2022       | X          |\n| Pedro López       | 03/01/2022       | √          |\n| Ana Rodríguez     | 04/01/2022       |            |\n\nRecuerda que esta es solo una sugerencia y puedes adaptar la tabla según tus necesidades y preferencias.\n\nClaro, aquí tienes nuevamente el archivo del Instituto Politécnico Formosa:\n\n- [Instituto Politécnico Formosa.pdf](content/Instituto_Politécnico_Formosa.pdf)\n\nAhora, hablemos sobre el Instituto Politécnico Formosa. Es un organismo descentralizado de la Administración Pública, relacionado con el poder ejecutivo a través del Ministerio de Cultura y Educación de la Provincia de Formosa. Fue establecido en el Decreto Nº 18 del 2018.\n\nEl Instituto Politécnico Formosa tiene capacidad de derecho público y privado para realizar todos los actos y contratos necesarios para el logro de sus fines. Su director es el Ing. Rubén Oscar Fernández y la directora de carreras es la Dra. Alicia Noemí Alcaraz.\n\nFue creado como una institución educativa de avanzada orientada a desarrollar procesos sistemáticos de formación que articulen el estudio y el trabajo, la investigación y la práctica. Tiene como finalidad promover la formación de profesionales altamente capacitados en diversas áreas.\n\nSi tienes alguna pregunta específica sobre el Instituto Politécnico Formosa, estaré encantado de ayudarte.')
+            }, 5000)
+        })
+        if (await message) {
+            setIsLoadingResponse(false)
+            setMensajeIA({ from: "IA", message: await message });
+        }
+
+        setTimeout(() => {
+            setMensajeIA({ from: "IA", message: "" });
+        }, 1500);
     };
 
     const enviarMsjYPreguntar = () => {
@@ -108,6 +117,7 @@ export const ChatScreen = () => {
         if (
             key.code === "Enter" &&
             mensajeActual.message.trim() !== ""
+            && !key.shiftKey
         ) {
             enviarMsjYPreguntar()
         }
@@ -132,6 +142,17 @@ export const ChatScreen = () => {
                         {historyChat.map((mensaje, index) =>
                             mensajeFormat(mensaje, index)
                         )}
+                        {isLoadingResponse && (
+                            <div className="text-center">
+                                <div role="status">
+                                    <svg aria-hidden="true" className="inline w-12 h-12 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                                    </svg>
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="h-min border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
@@ -139,14 +160,14 @@ export const ChatScreen = () => {
                         <span className="absolute inset-y-0 flex items-center">
                             <button
                                 type="button"
-                                className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                                className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-200 ease-in-out text-gray-500 hover:bg-cyan-600/20 focus:outline-none"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="h-6 w-6 text-gray-600"
+                                    className="h-6 w-6 text-cyan-600"
                                 >
                                     <path
                                         strokeLinecap="round"
@@ -157,24 +178,25 @@ export const ChatScreen = () => {
                                 </svg>
                             </button>
                         </span>
-                        <input
-                            type="text"
+                        <textarea
                             placeholder="Pregunta algo"
-                            className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
+                            className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md pt-3 pe-[20vw] resize-none overflow-hidden focus-visible:overflow-y-auto"
                             value={mensajeActual.message}
                             onInput={handleInput}
                             onKeyUp={handleEnter}
-                        />
+                            inputMode="text"
+                            autoFocus={true}
+                            rows="2">
+                        </textarea>
                         <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
+                            <Modal btnClass={"inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-cyan-600 hover:bg-cyan-600/20 focus:outline-none"}
+                                btnName={<IconAdjuntFile />}
+                                child={AdjuntFile}
+                                modalFloat={true}
+                            />
                             <button
                                 type="button"
-                                className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                            >
-                                <IconAdjuntFile />
-                            </button>
-                            <button
-                                type="button"
-                                className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                                className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-cyan-600 hover:bg-cyan-600/20 focus:outline-none"
                             >
                                 <IconCamera />
                             </button>

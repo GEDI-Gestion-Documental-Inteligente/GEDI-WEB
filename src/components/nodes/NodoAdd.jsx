@@ -2,8 +2,8 @@ import React from 'react'
 import { createNode } from '../../library/nodeThunk';
 import { useContextIdParent } from '../../hooks/useIdParent';
 import { useNavigate } from 'react-router-dom';
-
-function NodoAdd({ handleClose }) {
+import Swal from 'sweetalert2'
+function NodoAdd({ handleClose, data: fetchDataNode }) {
 
   const { idParent } = useContextIdParent()
   const navigate = useNavigate()
@@ -24,12 +24,22 @@ function NodoAdd({ handleClose }) {
       description.trim() !== ""
     ) {
       await createNode(idParent, data).then(() => {
-        navigate('/nodes')
-        handleClose()
+        Swal.fire({
+          title: '¡Carpeta creada exitosamente!',
+          timer: 4000,
+          icon: 'success',
+          didDestroy: async () => {
+            await fetchDataNode(idParent)
+            handleClose()
+          }
+        })
       });
       // onSubmit(); // Llama a la función onSubmit para cerrar el formulario o hacer otras acciones necesarias
     } else {
-      alert("Por favor, complete todos los campos.");
+      Swal.fire({
+        title: "Por favor, complete todos los campos.",
+        icon: 'warning'
+      })
     }
   };
 

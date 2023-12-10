@@ -20,6 +20,10 @@ function Navbar() {
                 setRutasDisponibles([...rutasDisponibles, { ruta: '/chat', nombre: 'ChatIA' }])
                 console.log({ rutasDisponibles });
             }
+            if (!user?.id) {
+                localStorage.clear()
+                navigate('/')
+            }
         })
     }, [])
     const botonesNavegadores = (index, ruta, nombre) => {
@@ -39,7 +43,7 @@ function Navbar() {
             </ul>
             <ul className='flex mx-auto justify-content-center'>
                 <li className='mx-2 text-lg'>
-                    {userInfo.id}
+                    {userInfo?.id}
                 </li>
             </ul>
             <ul className='flex ms-auto justify-content-end'>
