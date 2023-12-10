@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { AuthLogin } from '../library/authLogin'
 import { useNavigate } from 'react-router-dom'
 import { miSite } from '../library/sideThunks'
-
+import Swal from 'sweetalert2'
 function LoginScreen() {
   const navigate = useNavigate()
-
+  const [mensajeException, setMensajeException] = useState("")
   useEffect(() => {
     logear()
     console.clear();
@@ -32,11 +32,44 @@ function LoginScreen() {
         password
       }
       AuthLogin(data)
-        .then((ticket) => {
-          navigate('/sites')
+        .then((res) => {
+          if (res?.error?.includes('NetworkError')) {
+            Swal.fire({
+              title: 'Network Error',
+              text: 'Hubo un error con la conexión, intente mas tarde.',
+              icon: 'error',
+            })
+          }
+          if (!res?.ok && res?.error?.includes('details')) {
+            Swal.fire({
+              title: 'Inicio de sesión',
+              text: 'Existen campos vacíos',
+              icon: 'error',
+              timer: 6000,
+            })
+          }
+          console.log({ res });
+
+          if (!res?.ok && res?.error?.includes('failed')) {
+            Swal.fire({
+              title: 'Inicio de sesión',
+              text: 'Nombre de usuario o contraseña incorrectos',
+              icon: 'error',
+              timer: 6000,
+            })
+          }
+          if (res?.ticket) {
+            Swal.fire({
+              title: 'Inicio de sesión',
+              text: 'Autenticado correctamente.',
+              icon: 'success',
+              timer: 1500,
+              didDestroy: navigate('/sites')
+            })
+          }
         })
         .catch((err) => {
-          console.log(err);
+          console.log({ err });
         });
     } catch (error) {
       console.log("Error al iniciar sesión:", error.message);
@@ -74,7 +107,6 @@ function LoginScreen() {
         <button className={''} onClick={handleLoguear}>
           <p >Ingresar</p>
         </button> */}
-
           {/* {isAuthenticated && <Text>Autenticado correctamente</Text>} */}
           {/* <Link to="/sites">sitios</Link> */}
         </div>

@@ -14,34 +14,38 @@ export const AuthLogin = async(data) => {
         password,
       }),
     });
-
-    if (!response.ok) {
-      throw new Error('Error al iniciar sesión');
-    }
     const data = await response.json();
+    if (!data.ok) {
+      return data;
+    }
     const ticket = data.token;
 
     // Almacenar el ticket en el almacenamiento local del navegador (localStorage).
     localStorage.setItem('ticket', ticket);
 
-    return ticket;
+    return { ticket };
   } catch (error) {
-    console.error(error);
-    throw error;
+    return {
+      error: error.message,
+    };
   }
 };
 
 export const infoUser = async({ setUserInfo }) => {
-  const token = localStorage.getItem('ticket');
-  const response = await fetch(`${urlBase}/people/one-person/-me-`, {
-    headers: {
-      Authorization: token,
-    },
-  });
-  const userInfo = await response.json();
-  const userData = userInfo?.person?.entry;
-  if (setUserInfo) {
-    setUserInfo(userData);
+  try {
+    const token = localStorage.getItem('ticket');
+    const response = await fetch(`${urlBase}/people/one-person/-me-`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    const userInfo = await response.json();
+    const userData = userInfo?.person?.entry;
+    if (setUserInfo) {
+      setUserInfo(userData);
+    }
+    return userData;
+  } catch (error) {
+    console.log(error);
   }
-  return userData;
 };

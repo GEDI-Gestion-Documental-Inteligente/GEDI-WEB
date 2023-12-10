@@ -1,6 +1,6 @@
 export const configMessageIA = {
     a: ({ children, ...props }) => (
-        <a className="underline hover:text-blue-400 tracking-wide font-bold" {...props}>{children}</a>
+        <a className="underline hover:text-blue-400 tracking-wide font-bold" {...props} target="_blank">{children}</a>
     ),
     h1: ({ children, ...props }) => (
         <h1 className="text-3xl" {...props} >
