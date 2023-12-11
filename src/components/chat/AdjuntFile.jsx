@@ -60,11 +60,11 @@ export const AdjuntFile = ({ styleClass, setDatafile }) => {
             className={`
                 ${styleClass ? styleClass : `
                 p-5 w-4/5 text-center border-4
-                border-cyan-700 border-dotted rounded-full
+                
                 text-xl`}
                 mx-auto
-                 ${isDragging ? 'dragging' : 'hover:bg-cyan-200 hover:cursor-pointer'} 
-                 ${isUploaded ? 'uploaded animate-fadeOut' : ''
+                 ${isDragging ? 'animate-pulse ease-in-out delay-200 hover:bg-cyan-300' : 'hover:bg-cyan-200 hover:cursor-pointer'} 
+                 ${isUploaded ? 'border-cyan-700 border-2' : 'border-cyan-700 border-dotted'
                 }`}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}

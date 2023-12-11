@@ -17,7 +17,7 @@ export const miSite = async() => {
       },
     };
 
-    const response = await fetch(`${urlBase}/sites/all`, myheaders).then(
+    const response = await fetch(`${urlBase}/sites/my-sites`, myheaders).then(
       (response) => response.json(),
     );
     return response;

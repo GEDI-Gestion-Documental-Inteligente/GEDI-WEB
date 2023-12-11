@@ -14,18 +14,22 @@ function NodoUploadFile({ handleClose, data: fetchDataNode }) {
     type: '',
     size: '',
   })
+  const handleInput = (e) => {
+    setDatafile({ ...dataFile, name: e.target.value })
+  }
+
   useEffect(() => {
     inputTitle.current.value = dataFile.name
   }, [dataFile])
   useEffect(() => {
     setDatafile({ ...dataFile, name: dataFile.name.replace(/\s/gi, '_') })
   }, [dataFile?.name?.trim()?.includes(' ')])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.target);
     const filedata = formData.get('filedata')
     console.log(filedata)
-    const name = dataFile.name
     const title = formData.get('title')
     const description = formData.get('description')
     // const typeDocument = formData.get('typeDocument')
@@ -35,7 +39,7 @@ function NodoUploadFile({ handleClose, data: fetchDataNode }) {
     formData.append('typeDocument', typeDocument)
     const data = {
       filedata,
-      name: name,
+      name: `${title}${title.includes(typeDocument) ? '' : `.${typeDocument}`}`,
       title: `${title}${title.includes(typeDocument) ? '' : `.${typeDocument}`}`,
       description,
       typeDocument,
@@ -45,9 +49,9 @@ function NodoUploadFile({ handleClose, data: fetchDataNode }) {
     // console.log({ data });
 
     if (
-      name.trim() !== "" &&
-      title.trim() !== "" &&
-      description.trim() !== "" &&
+      data.name.trim() !== "" &&
+      data.title.trim() !== "" &&
+      data.description.trim() !== "" &&
       typeDocument.trim() !== ""
     ) {
       await uploadFileNode(idParent, data).then(async () => {
@@ -80,6 +84,8 @@ function NodoUploadFile({ handleClose, data: fetchDataNode }) {
       });
       // onSubmit(); // Llama a la función onSubmit para cerrar el formulario o hacer otras acciones necesarias
     } else {
+      console.log({ dataFile });
+
       Swal.fire({
         title: "Por favor, complete todos los campos.",
         icon: 'warning'
@@ -100,6 +106,8 @@ function NodoUploadFile({ handleClose, data: fetchDataNode }) {
             name='title'
             ref={inputTitle}
             placeholder="Titulo"
+            autoFocus={true}
+            onInput={handleInput}
           />
           <input
             className={style.input}

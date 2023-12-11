@@ -14,7 +14,7 @@ export const ChatScreen = () => {
     const [isLoadingResponse, setIsLoadingResponse] = useState(false)
     const [historyChat, setHistoryChat] = useState([]);
     const [mensajeActual, setMensajeActual] = useState({ from: "", message: "" });
-    const [mensajeIA, setMensajeIA] = useState({ from: "IA", message: "Hola soy Alfredo IA, estoy aqui para ayudar!" });
+    const [mensajeIA, setMensajeIA] = useState({ from: "IA", message: "Hola soy el asistende de GEDI, estoy aqui para ayudar!" });
     const markdown = "# Documento Aleatorio en Markdown \n## Introducción\nEste es un documento de ejemplo en formato Markdown, que incluirá una variedad de elementos como listas, tablas, títulos de diferentes tamaños y enlaces.\n\n## Listas\n### Lista Numerada\n1. Elemento 1\n2. Elemento 2\n3. Elemento 3\n\n### Lista con viñetas\n- Viñeta A\n- Viñeta B\n- Viñeta C\n\n## Tabla de Ejemplo\n| Encabezado 1 | Encabezado 2 | Encabezado 3 |\n|--------------|--------------|--------------|\n| Dato 1,1     | Dato 1,2     | Dato 1,3     |\n| Dato 2,1     | Dato 2,2     | Dato 2,3     |\n| Dato 3,1     | Dato 3,2     | Dato 3,3     |\n\n## Títulos de Distintos Tamaños\n### Título de Tercer Nivel\n#### Título de Cuarto Nivel\n##### Título de Quinto Nivel\n\n## Enlaces de Ejemplo\n- [Sitio de Ejemplo 1](http://www.ejemplo1.com)\n- [Sitio de Ejemplo 2](http://www.ejemplo2.com)\n"
     // agrega un elemento a un React.Dispatch
     const nuevoMensaje = (mensaje, history, setter) => {
@@ -66,25 +66,27 @@ export const ChatScreen = () => {
     };
     // TODO: esta funcion debe estar en otro archivo fuera
     const preguntar = async ({ query }) => {
-        // const response = await fetch(urlApiIA, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({ query }),
-        // });
+        setIsLoadingResponse(true)
+        const response = await fetch(urlApiIA, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query }),
+        });
 
-        // const message = await response.json();
-        // if (message?.detail?.includes('Please try again in 20s')) {
-        //     setMensajeIA({ from: "IA", message: "No puedo contestar a esa pregunta, sé mas específico" });
-        //     return;
-        // }
-        const message = new Promise((resolve, reject) => {
-            setIsLoadingResponse(true)
-            setTimeout(() => {
-                resolve('Para crear una tabla con el nombre del alumno, la fecha de registro y si asistió o no, puedes seguir estos pasos:\n\n1. Crea una tabla con tres columnas: "Nombre del Alumno", "Fecha de Registro" y "Asistencia".\n2. Agrega una fila por cada alumno y completa la información correspondiente en cada columna.\n3. En la columna "Asistencia", puedes utilizar una marca o un símbolo para indicar si el alumno asistió o no. Por ejemplo, puedes utilizar un check (√) para indicar que el alumno asistió y dejar la celda vacía o utilizar una cruz (X) para indicar que el alumno no asistió.\n4. Puedes utilizar herramientas como Microsoft Excel, Google Sheets o cualquier otra hoja de cálculo para crear y gestionar la tabla.\n\nAquí tienes un ejemplo de cómo se vería la tabla:\n\n| Nombre del Alumno | Fecha de Registro | Asistencia |\n|-------------------|------------------|------------|\n| Juan Pérez        | 01/01/2022       | √          |\n| María Gómez       | 02/01/2022       | X          |\n| Pedro López       | 03/01/2022       | √          |\n| Ana Rodríguez     | 04/01/2022       |            |\n\nRecuerda que esta es solo una sugerencia y puedes adaptar la tabla según tus necesidades y preferencias.\n\nClaro, aquí tienes nuevamente el archivo del Instituto Politécnico Formosa:\n\n- [Instituto Politécnico Formosa.pdf](content/Instituto_Politécnico_Formosa.pdf)\n\nAhora, hablemos sobre el Instituto Politécnico Formosa. Es un organismo descentralizado de la Administración Pública, relacionado con el poder ejecutivo a través del Ministerio de Cultura y Educación de la Provincia de Formosa. Fue establecido en el Decreto Nº 18 del 2018.\n\nEl Instituto Politécnico Formosa tiene capacidad de derecho público y privado para realizar todos los actos y contratos necesarios para el logro de sus fines. Su director es el Ing. Rubén Oscar Fernández y la directora de carreras es la Dra. Alicia Noemí Alcaraz.\n\nFue creado como una institución educativa de avanzada orientada a desarrollar procesos sistemáticos de formación que articulen el estudio y el trabajo, la investigación y la práctica. Tiene como finalidad promover la formación de profesionales altamente capacitados en diversas áreas.\n\nSi tienes alguna pregunta específica sobre el Instituto Politécnico Formosa, estaré encantado de ayudarte.')
-            }, 5000)
-        })
+        const message = await response.json();
+        if (message?.detail?.includes('Please try again in 20s')) {
+            setMensajeIA({ from: "IA", message: "No puedo contestar a esa pregunta, sé mas específico" });
+            setIsLoadingResponse(false)
+            return;
+        }
+        // const message = new Promise((resolve, reject) => {
+        //     setIsLoadingResponse(true)
+        //     setTimeout(() => {
+        //         resolve('Para crear una tabla con el nombre del alumno, la fecha de registro y si asistió o no, puedes seguir estos pasos:\n\n1. Crea una tabla con tres columnas: "Nombre del Alumno", "Fecha de Registro" y "Asistencia".\n2. Agrega una fila por cada alumno y completa la información correspondiente en cada columna.\n3. En la columna "Asistencia", puedes utilizar una marca o un símbolo para indicar si el alumno asistió o no. Por ejemplo, puedes utilizar un check (√) para indicar que el alumno asistió y dejar la celda vacía o utilizar una cruz (X) para indicar que el alumno no asistió.\n4. Puedes utilizar herramientas como Microsoft Excel, Google Sheets o cualquier otra hoja de cálculo para crear y gestionar la tabla.\n\nAquí tienes un ejemplo de cómo se vería la tabla:\n\n| Nombre del Alumno | Fecha de Registro | Asistencia |\n|-------------------|------------------|------------|\n| Juan Pérez        | 01/01/2022       | √          |\n| María Gómez       | 02/01/2022       | X          |\n| Pedro López       | 03/01/2022       | √          |\n| Ana Rodríguez     | 04/01/2022       |            |\n\nRecuerda que esta es solo una sugerencia y puedes adaptar la tabla según tus necesidades y preferencias.\n\nClaro, aquí tienes nuevamente el archivo del Instituto Politécnico Formosa:\n\n- [Instituto Politécnico Formosa.pdf](content/Instituto_Politécnico_Formosa.pdf)\n\nAhora, hablemos sobre el Instituto Politécnico Formosa. Es un organismo descentralizado de la Administración Pública, relacionado con el poder ejecutivo a través del Ministerio de Cultura y Educación de la Provincia de Formosa. Fue establecido en el Decreto Nº 18 del 2018.\n\nEl Instituto Politécnico Formosa tiene capacidad de derecho público y privado para realizar todos los actos y contratos necesarios para el logro de sus fines. Su director es el Ing. Rubén Oscar Fernández y la directora de carreras es la Dra. Alicia Noemí Alcaraz.\n\nFue creado como una institución educativa de avanzada orientada a desarrollar procesos sistemáticos de formación que articulen el estudio y el trabajo, la investigación y la práctica. Tiene como finalidad promover la formación de profesionales altamente capacitados en diversas áreas.\n\nSi tienes alguna pregunta específica sobre el Instituto Politécnico Formosa, estaré encantado de ayudarte.')
+        //     }, 5000)
+        // })
         if (await message) {
             setIsLoadingResponse(false)
             setMensajeIA({ from: "IA", message: await message });
@@ -132,7 +134,7 @@ export const ChatScreen = () => {
             <Navbar />
             <div className="bg-cyan-950/60 mx-auto w-4/5 md:w-3/4 p-10 rounded-lg border-2 border-cyan-700 mt-20 h-[80vh]">
                 <h3 className="text-center text-2xl text-white  border-b-2">
-                    Alfredo IA
+                    GEDI
                 </h3>
                 <div
                     ref={messagesContainerRef}
