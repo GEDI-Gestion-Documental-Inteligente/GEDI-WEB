@@ -49,6 +49,7 @@ function PeopleAdd({ handleClose }) {
           className={style.input}
           name='firstName'
           placeholder="Nombre"
+          autoFocus={true}
         />
         <input
           className={style.input}

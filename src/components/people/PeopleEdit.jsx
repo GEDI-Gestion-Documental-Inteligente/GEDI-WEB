@@ -74,6 +74,7 @@ function PeopleEdit({ handleClose, data }) {
                     placeholder="Nombre"
                     value={peopleInfo.firstName}
                     onInput={handleInput}
+                    autoFocus={true}
                 />
                 <input
                     className={style.input}

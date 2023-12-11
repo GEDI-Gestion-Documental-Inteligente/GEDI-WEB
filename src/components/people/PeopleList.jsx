@@ -42,19 +42,29 @@ function PeopleList() {
             <div>
                 {people.map(person => (
                     <div
-                        className='text-lg my-2 border-2 border-cyan-700 p-2 rounded-lg flex'
+                        className='my-2 border-2 border-cyan-700 p-2 rounded-lg grid grid-cols-2'
                         key={person.entry.id}>
-                        <p className='inline-block mx-1'>
-                            {person.entry.firstName}
-                        </p>
-                        <p className='inline-block mx-1'>
-                            {person.entry.LastName}
-                        </p>
-                        <p className='inline-block mx-1'>
-                            {person.entry.id}
-                        </p>
+                        <div className="container">
+                            <p className='inline-block mx-1 font-bold'>
+                                {person.entry.lastName} {person.entry.firstName}
+                            </p>
+                            <br />
+                            <p className='inline-block ms-2'>
+                                {person.entry.id}
+                            </p>
+                            <br />
+                            <p className="inline-block ms-2">
+                                Estado : {person.entry.enabled ? (
+                                    <p className="inline-block text-lime-800 font-bold">Activo</p>
+                                ) : (
+                                    <p className="inline-block text-red-800/80 font-bold">Inactivo</p>
+
+                                )}
+
+                            </p>
+                        </div>
                         {canEdit && (
-                            <Modal btnClass={'flex ms-auto border-cyan-700 border-2 p-1 rounded-lg hover:bg-cyan-500 h-10 '} btnName={<IconEdit />} child={PeopleEdit} data={{ id: person.entry.id, handleCargarGente }} />
+                            <Modal btnClass={'flex ms-auto my-auto border-cyan-700 border-2 p-1 rounded-lg hover:bg-cyan-500 h-12 '} btnName={<IconEdit />} child={PeopleEdit} data={{ id: person.entry.id, handleCargarGente }} />
                         )}
                     </div>
                 )

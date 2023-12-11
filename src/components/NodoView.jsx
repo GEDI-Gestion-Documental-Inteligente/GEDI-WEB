@@ -5,16 +5,16 @@ import Modal from './Modal';
 import NodeAdd from './nodes/NodoAdd'
 import NodoUploadFile from './nodes/NodoUploadFile';
 import { useContextIdParent } from '../hooks/useIdParent';
-import ModalMenu from './ModalMenu';
 import Swal from 'sweetalert2';
 import reactizadoElSwal from 'sweetalert2-react-content'
 import { calcularBytesAMbyes, calcularTiempoCreacion } from '../library/calculos';
 import { urlBase } from '../App';
+import NodoEdit from './nodes/NodoEdit';
 function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
     const navigate = useNavigate()
-    const { setter } = useContextIdParent()
+    const { idParent, setter } = useContextIdParent()
     const swalConReact = reactizadoElSwal(Swal)
-    console.log({ datos });
+    // console.log({ datos });
     const eliminarNode = () => {
         alert('eliminado')
     }
@@ -39,8 +39,13 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
             )
         }
         if (nav.length && dato.name !== 'documentLibrary') {
-            const datosA = dato.isFile && datos?.mongoNodes?.[index]?.path ? {
-                href: datos?.mongoNodes?.[index]?.path ? `${urlBase.slice(0, urlBase.length - 4)}${datos?.mongoNodes?.[index]?.path}` : '',
+            console.log({
+                mongoNodes: datos.mongoNodes,
+                mongoNode: datos.mongoNodes[datos.mongoNodes.findIndex((node) => node.name === dato.name)],
+                dato
+            })
+            const datosA = dato.isFile && datos?.mongoNodes?.[datos?.mongoNodes?.findIndex((node) => node.name === dato.name)]?.path ? {
+                href: datos?.mongoNodes?.[datos.mongoNodes.findIndex((node) => node.name === dato.name)]?.path ? `${urlBase.slice(0, urlBase.length - 4)}${datos?.mongoNodes?.[datos.mongoNodes.findIndex((node) => node.name === dato.name)]?.path}` : '',
                 target: '_blank'
             } : {}
             return (
@@ -54,7 +59,7 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
                         swalConReact.fire({
                             title: dato.name,
                             html: <>
-                                <button className="p-5 bg-cyan-700/50 w-full"
+                                <button className="p-5 bg-cyan-700/50 hover:bg-cyan-900/50 w-full"
                                     onClick={() => {
                                         const { timeMessage } = calcularTiempoCreacion({ fechaCreado: dato.createdAt })
                                         swalConReact.fire({
@@ -74,16 +79,21 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
                                     }}
                                 >Ver más</button>
                                 <br />
-                                <button className="p-5 bg-cyan-900/20 w-full"
+                                <button className="p-5 bg-cyan-900/20 hover:bg-cyan-900/40 w-full"
                                     onClick={() => {
                                         // TODO: en caso de editar
                                         swalConReact.fire({
-                                            title: 'Modulo Editar Archivo'
+                                            html: (
+                                                <>
+                                                    <NodoEdit data={{ nodeData: dato }} />
+                                                </>
+                                            ),
+                                            showConfirmButton: false
                                         })
                                     }}
                                 >Editar</button>
                                 <br />
-                                <button className="p-5 bg-red-500 w-full"
+                                <button className="p-5 bg-red-400/80 hover:bg-red-400/50  w-full"
                                     onClick={() => {
                                         // TODO: en caso de eliminar
                                         eliminarNode()
@@ -111,6 +121,8 @@ function NodoView({ datos, fetchNodeChildren, nav, setNav }) {
                         {/* <p className=''>{JSON.stringify(dato.}</p> */}
                         <p className=''>{dato.name}</p>
                         <p className=''>({dato.createdByUser.displayName})</p>
+                        <br />
+                        <p className=''>Click derecho para ver acciones</p>
                         {/* <p className=''>{dato.isFolder ? 'Folder' : 'File'}</p> */}
                     </div>
                 </a>

@@ -34,6 +34,7 @@ export default function sitesAdd({ handleClose }) {
                     className={style.input}
                     name="title"
                     placeholder="Titulo"
+                    autoFocus={true}
                 />
                 <input
                     className={style.input}

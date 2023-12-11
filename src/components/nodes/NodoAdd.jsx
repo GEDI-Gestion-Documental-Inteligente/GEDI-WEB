@@ -52,6 +52,7 @@ function NodoAdd({ handleClose, data: fetchDataNode }) {
             className={style.input}
             name='name'
             placeholder="Nombre"
+            autoFocus={true}
           />
           <input
             className={style.input}

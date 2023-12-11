@@ -81,7 +81,7 @@ function LoginScreen() {
       <form className={style.loginContainer}
         onSubmit={handleLoguear} >
         <div className={style.loginContent}>
-          <h3 className={style.loginTitle} >Alfredo IA</h3>
+          <h3 className={style.loginTitle} >GEDI</h3>
 
           <input
             type="text"

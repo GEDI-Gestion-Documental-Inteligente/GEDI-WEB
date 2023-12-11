@@ -31,7 +31,7 @@ const Modal = ({ btnName, btnClass, child: Child, data, modalWidth, modalFloat }
                     >
 
                     </div>
-                    <div className={`mx-auto ${modalFloat ? 'h-full my-auto' : 'mt-20'} ${modalWidth ?? 'w-[75vw] lg:w-[50vw]'} backdrop-blur-0 overflow-auto flex justify-center items-center`}
+                    <div className={`mx-auto ${modalFloat ? 'h-full my-auto' : 'mt-20'} ${modalWidth ?? 'w-[75vw] lg:w-[50vw]'} backdrop-blur-0 overflow-auto flex justify-center items-center animate__animated animate__fadeInDown animate__faster`}
                     >
                         <div className="bg-white container p-2 rounded-lg flex flex-col justify-center items-center gap-1">
                             <div className="relative ms-auto">
